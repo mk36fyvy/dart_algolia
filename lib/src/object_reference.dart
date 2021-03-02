@@ -21,7 +21,7 @@ class AlgoliaObjectReference {
     try {
       String url = '${algolia._host}indexes/$_index/$_objectId';
       Response response = await get(
-        url,
+        Uri(path: url),
         headers: algolia._header,
       );
       Map<String, dynamic> body = json.decode(response.body);
@@ -43,7 +43,7 @@ class AlgoliaObjectReference {
         url = '$url/$_objectId';
       }
       Response response = await post(
-        url,
+        Uri(path: url),
         headers: algolia._header,
         body: utf8.encode(json.encode(data, toEncodable: jsonEncodeHelper)),
         encoding: Encoding.getByName('utf-8'),
@@ -73,7 +73,7 @@ class AlgoliaObjectReference {
       }
       data['objectID'] = _objectId;
       Response response = await put(
-        url,
+        Uri(path: url),
         headers: algolia._header,
         body: utf8.encode(json.encode(data, toEncodable: jsonEncodeHelper)),
         encoding: Encoding.getByName('utf-8'),
@@ -101,8 +101,7 @@ class AlgoliaObjectReference {
   ///      object, assuming an empty object as the basis. When false, a partial
   ///      update on a nonexistent object will be ignored.
   ///
-  Future<AlgoliaTask> partialUpdateObject(Map<String, dynamic> data,
-      {bool createIfNotExists = true}) async {
+  Future<AlgoliaTask> partialUpdateObject(Map<String, dynamic> data, {bool createIfNotExists = true}) async {
     assert(_objectId != null || createIfNotExists,
         'You can\'t partialUpdateObject when createIfNotExists=false and data without an objectID.');
     assert(_index != null && _index != '*' && _index != '',
@@ -115,7 +114,7 @@ class AlgoliaObjectReference {
       data['objectID'] = _objectId;
       data['createIfNotExists'] = createIfNotExists;
       Response response = await put(
-        url,
+        Uri(path: url),
         headers: algolia._header,
         body: utf8.encode(json.encode(data, toEncodable: jsonEncodeHelper)),
         encoding: Encoding.getByName('utf-8'),
@@ -131,15 +130,14 @@ class AlgoliaObjectReference {
   ///
   /// If no object exists yet, the update will fail.
   Future<AlgoliaTask> deleteObject() async {
-    assert(
-        _objectId != null, 'You can\'t delete an object without an objectID.');
+    assert(_objectId != null, 'You can\'t delete an object without an objectID.');
     try {
       String url = '${algolia._host}indexes/$_index';
       if (_objectId != null) {
         url = '$url/$_objectId';
       }
       Response response = await delete(
-        url,
+        Uri(path: url),
         headers: algolia._header,
       );
       Map<String, dynamic> body = json.decode(response.body);

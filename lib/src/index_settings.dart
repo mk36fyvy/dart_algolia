@@ -12,15 +12,14 @@ class AlgoliaIndexSettings extends AlgoliaSettings {
     Algolia algolia,
     String indexName, {
     Map<String, dynamic> parameters,
-  })  : assert(indexName != null && indexName != '*',
-            'Index Name is required, but was found: $indexName'),
+  })  : assert(indexName != null && indexName != '*', 'Index Name is required, but was found: $indexName'),
         super._(algolia, indexName);
 
   Future<Map<String, dynamic>> getSettings() async {
     try {
       String url = '${algolia._host}indexes/$_index/settings';
       Response response = await get(
-        url,
+        Uri(path: url),
         headers: algolia._header,
       );
       Map<String, dynamic> body = json.decode(response.body);
@@ -36,8 +35,7 @@ class AlgoliaSettings {
     this.algolia,
     String indexName, {
     final Map<String, dynamic> parameters,
-  })  : assert(indexName != null && indexName != '*',
-            'Index Name is required, but was found: $indexName'),
+  })  : assert(indexName != null && indexName != '*', 'Index Name is required, but was found: $indexName'),
         this._index = indexName,
         _parameters = parameters ?? const <String, dynamic>{};
 
@@ -57,15 +55,13 @@ class AlgoliaSettings {
 
   Future<AlgoliaTask> setSettings() async {
     try {
-      assert(
-          _parameters.keys.isNotEmpty, 'No setting parameter to update found.');
+      assert(_parameters.keys.isNotEmpty, 'No setting parameter to update found.');
 
       String url = '${algolia._host}indexes/$_index/settings';
       Response response = await put(
-        url,
+        Uri(path: url),
         headers: algolia._header,
-        body: utf8
-            .encode(json.encode(_parameters, toEncodable: jsonEncodeHelper)),
+        body: utf8.encode(json.encode(_parameters, toEncodable: jsonEncodeHelper)),
         encoding: Encoding.getByName('utf-8'),
       );
       Map<String, dynamic> body = json.decode(response.body);
@@ -86,8 +82,7 @@ class AlgoliaSettings {
   AlgoliaSettings setSearchableAttributes(List<String> value) {
     assert(value != null);
     assert(!_parameters.containsKey('searchableAttributes'));
-    return _copyWithParameters(
-        <String, dynamic>{'searchableAttributes': value});
+    return _copyWithParameters(<String, dynamic>{'searchableAttributes': value});
   }
 
   ///
@@ -100,8 +95,7 @@ class AlgoliaSettings {
   AlgoliaSettings setAttributesForFaceting(List<String> value) {
     assert(value != null);
     assert(!_parameters.containsKey('attributesForFaceting'));
-    return _copyWithParameters(
-        <String, dynamic>{'attributesForFaceting': value});
+    return _copyWithParameters(<String, dynamic>{'attributesForFaceting': value});
   }
 
   ///
@@ -114,8 +108,7 @@ class AlgoliaSettings {
   AlgoliaSettings setUnretrievableAttributes(List<String> value) {
     assert(value != null);
     assert(!_parameters.containsKey('unretrievableAttributes'));
-    return _copyWithParameters(
-        <String, dynamic>{'unretrievableAttributes': value});
+    return _copyWithParameters(<String, dynamic>{'unretrievableAttributes': value});
   }
 
   ///
@@ -128,8 +121,7 @@ class AlgoliaSettings {
   AlgoliaSettings setAttributesToRetrieve(List<String> value) {
     assert(value != null);
     assert(!_parameters.containsKey('attributesToRetrieve'));
-    return _copyWithParameters(
-        <String, dynamic>{'attributesToRetrieve': value});
+    return _copyWithParameters(<String, dynamic>{'attributesToRetrieve': value});
   }
 
   ///
@@ -220,8 +212,7 @@ class AlgoliaSettings {
   AlgoliaSettings setAttributesToHighlight(List<String> value) {
     assert(value != null);
     assert(!_parameters.containsKey('attributesToHighlight'));
-    return _copyWithParameters(
-        <String, dynamic>{'attributesToHighlight': value});
+    return _copyWithParameters(<String, dynamic>{'attributesToHighlight': value});
   }
 
   ///
@@ -286,8 +277,7 @@ class AlgoliaSettings {
   AlgoliaSettings setRestrictHighlightAndSnippetArrays({bool enable = true}) {
     assert(enable != null);
     assert(!_parameters.containsKey('restrictHighlightAndSnippetArrays'));
-    return _copyWithParameters(
-        <String, dynamic>{'restrictHighlightAndSnippetArrays': enable});
+    return _copyWithParameters(<String, dynamic>{'restrictHighlightAndSnippetArrays': enable});
   }
 
   ///
@@ -339,8 +329,7 @@ class AlgoliaSettings {
   AlgoliaSettings setMinWordSizeFor2Typos(int value) {
     assert(value != null);
     assert(!_parameters.containsKey('minWordSizefor2Typos'));
-    return _copyWithParameters(
-        <String, dynamic>{'minWordSizefor2Typos': value});
+    return _copyWithParameters(<String, dynamic>{'minWordSizefor2Typos': value});
   }
 
   ///
@@ -370,8 +359,7 @@ class AlgoliaSettings {
   AlgoliaSettings setAllowTyposOnNumericTokens(bool value) {
     assert(value != null);
     assert(!_parameters.containsKey('allowTyposOnNumericTokens'));
-    return _copyWithParameters(
-        <String, dynamic>{'allowTyposOnNumericTokens': value});
+    return _copyWithParameters(<String, dynamic>{'allowTyposOnNumericTokens': value});
   }
 
   ///
@@ -385,8 +373,7 @@ class AlgoliaSettings {
   AlgoliaSettings setDisableTypoToleranceOnAttributes(List<String> value) {
     assert(value != null);
     assert(!_parameters.containsKey('disableTypoToleranceOnAttributes'));
-    return _copyWithParameters(
-        <String, dynamic>{'disableTypoToleranceOnAttributes': value});
+    return _copyWithParameters(<String, dynamic>{'disableTypoToleranceOnAttributes': value});
   }
 
   //
@@ -400,8 +387,7 @@ class AlgoliaSettings {
   AlgoliaSettings setDisableTypoToleranceOnWords(List<String> value) {
     assert(value != null);
     assert(!_parameters.containsKey('disableTypoToleranceOnWords'));
-    return _copyWithParameters(
-        <String, dynamic>{'disableTypoToleranceOnWords': value});
+    return _copyWithParameters(<String, dynamic>{'disableTypoToleranceOnWords': value});
   }
 
   //

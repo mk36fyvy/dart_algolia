@@ -56,14 +56,13 @@ class Algolia {
     return AlgoliaIndexReference._(this, index);
   }
 
-  AlgoliaMultiIndexesReference get multipleQueries =>
-      AlgoliaMultiIndexesReference._(this);
+  AlgoliaMultiIndexesReference get multipleQueries => AlgoliaMultiIndexesReference._(this);
 
   Future<AlgoliaIndexesSnapshot> getIndices() async {
     try {
       String _url = '${this._host}indexes';
       Response response = await get(
-        _url,
+        Uri(path: _url),
         headers: this._header,
       );
       print(response);

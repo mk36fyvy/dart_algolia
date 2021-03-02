@@ -60,13 +60,11 @@ class AlgoliaBatch {
     if (!_committed) {
       if (_actions.isNotEmpty) {
         _committed = true;
-        List<Map<String, dynamic>> actions =
-            _actions.map((a) => a.toMap()).toList();
+        List<Map<String, dynamic>> actions = _actions.map((a) => a.toMap()).toList();
         Response response = await post(
-          '${algolia._host}indexes/$_index/batch',
+          Uri(path: '${algolia._host}indexes/$_index/batch'),
           headers: algolia._header,
-          body: utf8.encode(json
-              .encode({'requests': actions}, toEncodable: jsonEncodeHelper)),
+          body: utf8.encode(json.encode({'requests': actions}, toEncodable: jsonEncodeHelper)),
           encoding: Encoding.getByName('utf-8'),
         );
         Map<String, dynamic> body = json.decode(response.body);
@@ -92,8 +90,7 @@ class AlgoliaBatch {
           'In batch action [addObject] objectID field is not allowed, or use [updateObject].');
       _actions.add(AlgoliaBatchRequest(action: 'addObject', body: data));
     } else {
-      throw StateError(
-          "This batch has been committed and can no longer be changed.");
+      throw StateError("This batch has been committed and can no longer be changed.");
     }
   }
 
@@ -109,8 +106,7 @@ class AlgoliaBatch {
     if (!_committed) {
       _actions.add(AlgoliaBatchRequest(action: 'updateObject', body: data));
     } else {
-      throw StateError(
-          "This batch has been committed and can no longer be changed.");
+      throw StateError("This batch has been committed and can no longer be changed.");
     }
   }
 
@@ -127,11 +123,9 @@ class AlgoliaBatch {
     if (!_committed) {
       assert(_index != null && _index != '*' && _index != '',
           'IndexName is required, but it has `*` multiple flag or `null`.');
-      _actions
-          .add(AlgoliaBatchRequest(action: 'partialUpdateObject', body: data));
+      _actions.add(AlgoliaBatchRequest(action: 'partialUpdateObject', body: data));
     } else {
-      throw StateError(
-          "This batch has been committed and can no longer be changed.");
+      throw StateError("This batch has been committed and can no longer be changed.");
     }
   }
 
@@ -147,13 +141,10 @@ class AlgoliaBatch {
     if (!_committed) {
       assert(_index != null && _index != '*' && _index != '',
           'IndexName is required, but it has `*` multiple flag or `null`.');
-      assert(data['objectID'] != null,
-          'In batch action [partialUpdateObjectNoCreate] objectID field is required.');
-      _actions.add(AlgoliaBatchRequest(
-          action: 'partialUpdateObjectNoCreate', body: data));
+      assert(data['objectID'] != null, 'In batch action [partialUpdateObjectNoCreate] objectID field is required.');
+      _actions.add(AlgoliaBatchRequest(action: 'partialUpdateObjectNoCreate', body: data));
     } else {
-      throw StateError(
-          "This batch has been committed and can no longer be changed.");
+      throw StateError("This batch has been committed and can no longer be changed.");
     }
   }
 
@@ -169,8 +160,7 @@ class AlgoliaBatch {
         'objectID': objectID,
       }));
     } else {
-      throw StateError(
-          "This batch has been committed and can no longer be changed.");
+      throw StateError("This batch has been committed and can no longer be changed.");
     }
   }
 
@@ -183,8 +173,7 @@ class AlgoliaBatch {
     if (!_committed) {
       _actions.add(AlgoliaBatchRequest(action: 'delete', body: {}));
     } else {
-      throw StateError(
-          "This batch has been committed and can no longer be changed.");
+      throw StateError("This batch has been committed and can no longer be changed.");
     }
   }
 
@@ -198,8 +187,7 @@ class AlgoliaBatch {
     if (!_committed) {
       _actions.add(AlgoliaBatchRequest(action: 'clear', body: {}));
     } else {
-      throw StateError(
-          "This batch has been committed and can no longer be changed.");
+      throw StateError("This batch has been committed and can no longer be changed.");
     }
   }
 }
